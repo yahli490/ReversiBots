@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Running simulations</title>
+    <title>Submit Code</title>
 </head>
+
 <body>
-    <h1>Not supported</h1>
+    <form action="/run" method="post">
+        <label for="passcode">Team passcode:</label><br>
+        <input type="text" id="team" name="team"><br><br>
+
+        <label for="passcode">Enemy passcode:</label><br>
+        <input type="text" id="enemy" name="enemy"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
