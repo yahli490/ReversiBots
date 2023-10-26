@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request
-import lib.server_utils as server_utils
+import src.server_utils as server_utils
 import os 
 
 
 players_count = 5
-app = Flask(__name__, static_folder = os.path.join('templates', 'style'))
+app = Flask(__name__, static_folder = os.path.join('static', 'style'), template_folder= os.path.join("static", "templates"))
 
 
 @app.route('/')
@@ -45,8 +45,7 @@ def run_sim():
     if not server_utils.verify_exists(enemy): 
         return "Wrong enemy!"
 
-    #@TODO: simulate a game and return the logs. 
-    return "Greate success!"
+    return server_utils.play_game(team, enemy)
 
 
 if __name__ == "__main__":

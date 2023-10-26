@@ -1,8 +1,10 @@
 import os, secrets
+import src.reversi as reversi
+
 
 pass_len = 10
 chr_options = "0123456789abcdefghijklmnopqrstuvwxyz" 
-basedir = "Submitted Code"
+basedir = os.path.join("Submitted Code")
 allowed_pass = []
 
 
@@ -48,3 +50,28 @@ def generate_players(count : int) -> None:
     with open(os.path.join(basedir, "passcodes.txt"), "w") as f: 
         for pc in allowed_pass: 
             f.write(pc + "\n")
+
+
+def play_game(team, enemy): 
+    #Isn't safe
+    team = __import__(".".join([basedir, team]))
+    enemy = __import__(".".join([basedir, enemy]))
+    
+    game = reversi.reversi()
+    logs = []
+
+    while game.winner() == reversi.UNKNOWN: 
+        if game.turn() == reversi.FIRST: 
+            x, y = team.get_move(game.board())
+            game.play(x, y)
+            logs.append([x, y])
+
+        else: 
+            x, y = enemy.get_move(game.board())
+            game.play(x, y) 
+            logs.append([x, y])
+
+    return {"moves" : logs, "winner" : game.winner()}
+
+    
+    
