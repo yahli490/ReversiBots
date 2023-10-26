@@ -4,17 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Code</title>
+    
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="style/bootstrap.css" />
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!--owl slider stylesheet -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <!-- font awesome style -->
+    <link href="style/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="style/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="style/responsive.css" rel="stylesheet" />
 </head>
 
 <body>
-    <form action="/run" method="post">
-        <label for="passcode">Team passcode:</label><br>
-        <input type="text" id="team" name="team"><br><br>
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav  ">
+                <li class="nav-item active">
+                    <a class="nav-link active" href="/">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link active" href="submit">Submit</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="run">Run</a>
+                </li>
+                </ul>
+            </div>
+            </nav>
+        </div>
+    </header>
 
-        <label for="passcode">Enemy passcode:</label><br>
-        <input type="text" id="enemy" name="enemy"><br><br>
+    <div class="container-fluid"> 
+        <form action="/run" method="post">
+            <label for="passcode">Team passcode:</label><br>
+            <input type="text" id="team" name="team"><br><br>
 
-        <input type="submit" value="Submit">
-    </form>
+            <label for="passcode">Enemy passcode:</label><br>
+            <input type="text" id="enemy" name="enemy"><br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 </body>
 </html>
