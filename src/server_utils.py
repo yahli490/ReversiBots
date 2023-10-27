@@ -1,4 +1,4 @@
-import os, secrets
+import os, secrets, sys
 import src.reversi as reversi
 
 
@@ -53,24 +53,29 @@ def generate_players(count : int) -> None:
 
 
 def play_game(team, enemy): 
-    #Isn't safe
-    team = __import__(".".join([basedir, team]))
-    enemy = __import__(".".join([basedir, enemy]))
-    
+    #@TODO Isn't safe
+    if basedir not in sys.path: 
+        sys.path.append(basedir)
+
+    team = __import__(team)
+    enemy = __import__(enemy)
     game = reversi.reversi()
     logs = []
 
     while game.winner() == reversi.UNKNOWN: 
+        
         if game.turn() == reversi.FIRST: 
-            x, y = team.get_move(game.board())
+            x, y = team.get_move(reversi.FIRST, game.get_board())
             game.play(x, y)
             logs.append([x, y])
 
         else: 
-            x, y = enemy.get_move(game.board())
+            x, y = enemy.get_move(reversi.SECOND, game.get_board())
             game.play(x, y) 
             logs.append([x, y])
 
+    del team
+    del enemy
     return {"moves" : logs, "winner" : game.winner()}
 
     
