@@ -21,12 +21,12 @@ def submit_page():
 def submit_code(): 
     passcode = request.form.get("passcode")
     if not server_utils.verify_user(passcode): 
-        return "Incorrect passcode" 
+        return "Incorrect passcode", 400
 
     python = request.form.get("python")
     server_utils.save_to_py_file(passcode, python)
 
-    return "Greate success!"
+    return render_template("great_success.html")
     
 
 @app.route("/run", methods=["GET"])
@@ -40,7 +40,7 @@ def run_sim():
     enemy = request.form.get("enemy") 
 
     if not server_utils.verify_exists(team): 
-        return "Wrong team!" 
+        return "Wrong team!", 400 
     
     if not server_utils.verify_exists(enemy): 
         return "Wrong enemy!"

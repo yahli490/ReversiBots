@@ -64,14 +64,14 @@ def play_game(team, enemy):
 
     while game.winner() == reversi.UNKNOWN: 
         
-        if game.turn() == reversi.FIRST: 
+        if any(game.can_move(i, j, reversi.FIRST) for i in range(reversi.BOARD_SIZE) for j in range(reversi.BOARD_SIZE)): 
             x, y = team.get_move(reversi.FIRST, game.get_board())
-            game.play(x, y)
+            game.play(x, y, reversi.FIRST)
             logs.append([x, y])
 
-        else: 
+        if any(game.can_move(i, j, reversi.SECOND) for i in range(reversi.BOARD_SIZE) for j in range(reversi.BOARD_SIZE)): 
             x, y = enemy.get_move(reversi.SECOND, game.get_board())
-            game.play(x, y) 
+            game.play(x, y, reversi.SECOND) 
             logs.append([x, y])
 
     del team
