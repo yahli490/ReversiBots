@@ -26,7 +26,7 @@ def submit_code():
     python = request.form.get("python")
     server_utils.save_to_py_file(passcode, python)
 
-    return "Greate success!"
+    return render_template("great_success.html")
     
 
 @app.route("/run", methods=["GET"])
