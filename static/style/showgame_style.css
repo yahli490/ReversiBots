@@ -1,0 +1,111 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Arial", "Helvetica";
+}
+
+.game-container {
+  position: static;
+  display: block;
+  margin: 10px auto;
+}
+
+.tile-container {
+  margin: auto;
+  position: absolute;
+  border: solid 1px #477757;
+}
+
+.tile-background {
+  background-color: #42b964;
+  width: 60px;
+  height: 60px;
+  border: solid 1px #376747;
+  position: absolute;
+}
+
+.dot {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  background-color: #175727;
+}
+
+.black-piece, .white-piece {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 50%;
+  border: solid 1px #477757;
+}
+
+.white-piece {
+  background-color: white;
+}
+
+.black-piece {
+  background-color: black;
+}
+
+.score-board {
+  display: inline-block;
+  margin: 10px auto;
+  width: 75px;
+  border: solid 1px #175727;
+  padding: 5px;
+  text-align: center;
+}
+
+.score-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.result {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 23px;
+}
+
+.button-container {
+  width: 50%;
+  margin: 12px auto;
+  
+}
+.buttons {
+  appearance: button;
+  backface-visibility: hidden;
+  background-color: #405cf5;
+  border-radius: 6px;
+  border-width: 0;
+  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
+  font-size: 100%;
+  height: 44px;
+  line-height: 1.15;
+  outline: none;
+  overflow: hidden;
+  padding: 0 25px;
+  text-transform: none;
+  transform: translateZ(0);
+  transition: all .2s,box-shadow .08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 49%;
+}
+
+.button-9:disabled {
+  cursor: default;
+}
+
+.button-9:focus {
+  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
+}

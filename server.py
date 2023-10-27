@@ -44,8 +44,8 @@ def run_sim():
     
     if not server_utils.verify_exists(enemy): 
         return "Wrong enemy!"
-
-    return server_utils.play_game(team, enemy)
+    json = server_utils.play_game(team, enemy);
+    return render_template("showgame.html", json_string=json)
 
 
 if __name__ == "__main__":
