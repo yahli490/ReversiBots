@@ -9,5 +9,5 @@ def get_move(me, board):
 
     for i in range(reversi.BOARD_SIZE): 
         for j in range(reversi.BOARD_SIZE): 
-            if game.can_move(i, j): 
+            if game.can_move(i, j, me): 
                 return i, j 
