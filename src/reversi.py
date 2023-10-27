@@ -10,7 +10,6 @@ BOARD_SIZE = 8
 class reversi:
     def __init__(self) -> None:
         self.board = [[UNKNOWN for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)] 
-        self.current_player = FIRST
         self.set_winner = UNKNOWN
 
         mid = BOARD_SIZE // 2
@@ -18,7 +17,7 @@ class reversi:
         self.board[mid-1][mid] = self.board[mid][mid-1] = SECOND
 
 
-    def can_move(self, x, y) -> bool: 
+    def can_move(self, x, y, me) -> bool: 
         #illegal move? 
         if x < 0 or x >= BOARD_SIZE: 
             return False 
@@ -41,7 +40,7 @@ class reversi:
                         break 
 
                     #found a line to reverse
-                    if self.board[xx][yy] == self.current_player: 
+                    if self.board[xx][yy] == me: 
                         if (abs(xx - x) > 1 or abs(yy - y) > 1):
                             return True 
                         break 
@@ -60,7 +59,8 @@ class reversi:
         #can the current player move? 
         for i in range(BOARD_SIZE): 
             for j in range(BOARD_SIZE): 
-                if self.can_move(i, j): return UNKNOWN
+                if self.can_move(i, j, FIRST): return UNKNOWN
+                if self.can_move(i, j, SECOND): return UNKNOWN
         
         #count who has more squares
         cf = cs = 0
@@ -75,19 +75,14 @@ class reversi:
         if cf < cs: return SECOND
         return TIE 
             
-    
-    def turn(self) -> int: 
-        return self.current_player
 
-
-    def play(self, x, y) -> None: 
+    def play(self, x, y, me) -> None: 
         #illegal move? 
-        if not self.can_move(x, y): 
-            self.set_winner = FIRST if self.current_player == SECOND else SECOND
+        if not self.can_move(x, y, me): 
+            self.set_winner = FIRST if me == SECOND else SECOND
             return 
 
-        self.board[x][y] = self.current_player
-
+        self.board[x][y] = me
         for dx in [-1, 0, 1]: 
             for dy in [-1, 0, 1]: 
                 if dx == 0 and dy == 0: 
@@ -102,17 +97,15 @@ class reversi:
                         break 
 
                     #found a line to reverse
-                    if self.board[xx][yy] == self.current_player: 
+                    if self.board[xx][yy] == me: 
                         while (xx != x or yy != y):
-                            self.board[xx][yy] = self.current_player
+                            self.board[xx][yy] = me
                             xx -= dx
                             yy -= dy 
                         break
 
                     xx += dx
                     yy += dy
-
-        self.current_player = SECOND if self.current_player == FIRST else FIRST
 
 
     def get_board(self) -> list[list[int]]:  

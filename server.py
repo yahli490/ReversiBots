@@ -21,7 +21,7 @@ def submit_page():
 def submit_code(): 
     passcode = request.form.get("passcode")
     if not server_utils.verify_user(passcode): 
-        return "Incorrect passcode" 
+        return "Incorrect passcode", 400
 
     python = request.form.get("python")
     server_utils.save_to_py_file(passcode, python)
@@ -40,10 +40,10 @@ def run_sim():
     enemy = request.form.get("enemy") 
 
     if not server_utils.verify_exists(team): 
-        return "Wrong team!" 
+        return "Wrong team!", 400 
     
     if not server_utils.verify_exists(enemy): 
-        return "Wrong enemy!"
+        "Wrong enemy!", 400
 
     return server_utils.play_game(team, enemy)
 
