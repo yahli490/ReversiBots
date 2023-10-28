@@ -33,6 +33,7 @@
     game;
     
 var data = {{json_string|tojson}};
+console.log(data);
 var gameArray = data["moves"];
 var index = 0;
 $(function () {
@@ -281,7 +282,16 @@ function createTile (i, j) {
 }
 
 function nextMove() {
-  console.log("making move " + gameArray[index][0]+ " "+ gameArray[index][1]);
+  console.log("move " + gameArray[index][0]+ " " + gameArray[index][1]);
+  if (!game.isValidMove(gameArray[index][0], gameArray[index][1])){
+    if (game.turn>0){
+      $(".result").text("Invalid Move, " + "Black " + "Wins!");
+    }
+    else{
+      $(".result").text("Invalid Move, " + "White " + "Wins!");
+    }
+    return;
+  }
   game.makeMove(gameArray[index][0], gameArray[index][1]);
   index++;
   return;
@@ -291,7 +301,6 @@ function resetBoard() {
   index = 0;
   for (var i=0 ; i<dim ; ++i){
     for (var j =0 ; j<dim ; ++j){
-      console.log(i +" " + j);
       game.state[i][j].setTileEmpty();
     }
   }
