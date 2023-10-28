@@ -69,7 +69,7 @@ def play_game(team, enemy):
             game.play(x, y, reversi.FIRST)
             logs.append([x, y])
 
-        if any(game.can_move(i, j, reversi.SECOND) for i in range(reversi.BOARD_SIZE) for j in range(reversi.BOARD_SIZE)): 
+        if game.set_winner == reversi.UNKNOWN and any(game.can_move(i, j, reversi.SECOND) for i in range(reversi.BOARD_SIZE) for j in range(reversi.BOARD_SIZE)): 
             x, y = enemy.get_move(reversi.SECOND, game.get_board())
             game.play(x, y, reversi.SECOND) 
             logs.append([x, y])
