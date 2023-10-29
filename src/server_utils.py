@@ -1,4 +1,4 @@
-import os, secrets, sys
+import os, secrets, sys, threading
 import src.reversi as reversi
 
 
@@ -6,6 +6,7 @@ pass_len = 10
 chr_options = "0123456789abcdefghijklmnopqrstuvwxyz" 
 basedir = os.path.join("Submitted Code")
 allowed_pass = []
+TIMEOUT = 0.4
 
 
 #passcode -> path to python file
@@ -52,27 +53,50 @@ def generate_players(count : int) -> None:
             f.write(pc + "\n")
 
 
-def play_game(team, enemy): 
-    #@TODO Isn't safe
+def thread_func(team, me, board, resultCont): 
+    team = __import__(team); 
+    x, y = team.get_move(me, board); 
+    resultCont.append(x)
+    resultCont.append(y)
+
+
+def child_thread_getmove(team, me, board): 
+    resultCont = []
+    my_thread = threading.Thread(target=thread_func, args=(team, me, board, resultCont))
+    my_thread.start()
+    my_thread.join(timeout=TIMEOUT)
+    if my_thread.is_alive(): 
+        raise TimeoutError
+    return resultCont[0], resultCont[1] 
+    
+
+
+def play_game(team, enemy):     
     if basedir not in sys.path: 
         sys.path.append(basedir)
 
-    team = __import__(team)
-    enemy = __import__(enemy)
     game = reversi.reversi()
     logs = []
 
     while game.winner() == reversi.UNKNOWN: 
         
         if any(game.can_move(i, j, reversi.FIRST) for i in range(reversi.BOARD_SIZE) for j in range(reversi.BOARD_SIZE)): 
-            x, y = team.get_move(reversi.FIRST, game.get_board())
-            game.play(x, y, reversi.FIRST)
-            logs.append([x, y])
+            try: 
+                x, y = child_thread_getmove(team, reversi.FIRST, game.get_board()); 
+                game.play(x, y, reversi.FIRST)
+                logs.append([x, y]) 
+            except: 
+                game.set_winner = reversi.SECOND
+                break                 
 
         if game.set_winner == reversi.UNKNOWN and any(game.can_move(i, j, reversi.SECOND) for i in range(reversi.BOARD_SIZE) for j in range(reversi.BOARD_SIZE)): 
-            x, y = enemy.get_move(reversi.SECOND, game.get_board())
-            game.play(x, y, reversi.SECOND) 
-            logs.append([x, y])
+            try: 
+                x, y = child_thread_getmove(enemy, reversi.SECOND, game.get_board()); 
+                game.play(x, y, reversi.SECOND) 
+                logs.append([x, y])
+            except: 
+                game.set_winner = reversi.FIRST
+                break 
 
     del team
     del enemy
