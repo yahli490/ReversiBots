@@ -77,6 +77,7 @@ def play_game(team, enemy):
 
     game = reversi.reversi()
     logs = []
+    win_rep = None
 
     while game.winner() == reversi.UNKNOWN: 
         
@@ -87,6 +88,7 @@ def play_game(team, enemy):
                 logs.append([x, y]) 
             except: 
                 game.set_winner = reversi.SECOND
+                win_rep = -1
 
         if game.set_winner == reversi.UNKNOWN and any(game.can_move(i, j, reversi.SECOND) for i in range(reversi.BOARD_SIZE) for j in range(reversi.BOARD_SIZE)): 
             try: 
@@ -95,11 +97,11 @@ def play_game(team, enemy):
                 logs.append([x, y])
             except: 
                 game.set_winner = reversi.FIRST
-                break 
+                win_rep = -2
 
-    del team
-    del enemy
-    return {"moves" : logs, "winner" : game.winner()}
+    if win_rep is None: 
+        win_rep = game.winner()
+    return {"moves" : logs, "winner" : win_rep}
 
     
     
