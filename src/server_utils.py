@@ -1,4 +1,4 @@
-import os, secrets, sys, threading
+import os, secrets, sys, multiprocessing
 import src.reversi as reversi
 
 
@@ -6,7 +6,7 @@ pass_len = 10
 chr_options = "0123456789abcdefghijklmnopqrstuvwxyz" 
 basedir = os.path.join("Submitted Code")
 allowed_pass = []
-TIMEOUT = 0.4
+TIMEOUT = 0.42
 
 
 #passcode -> path to python file
@@ -53,21 +53,21 @@ def generate_players(count : int) -> None:
             f.write(pc + "\n")
 
 
-def thread_func(team, me, board, resultCont): 
+def proc_func(team, me, board, queue): 
     team = __import__(team); 
     x, y = team.get_move(me, board); 
-    resultCont.append(x)
-    resultCont.append(y)
+    queue.put((x, y)) 
 
 
-def child_thread_getmove(team, me, board): 
-    resultCont = []
-    my_thread = threading.Thread(target=thread_func, args=(team, me, board, resultCont))
-    my_thread.start()
-    my_thread.join(timeout=TIMEOUT)
-    if my_thread.is_alive(): 
-        raise TimeoutError
-    return resultCont[0], resultCont[1] 
+def child_proc_getmove(team, me, board): 
+    queue = multiprocessing.Queue()
+    my_proc = multiprocessing.Process(target=proc_func, args=(team, me, board, queue))
+    
+    my_proc.start()
+    args = queue.get(timeout=TIMEOUT); 
+    my_proc.kill()
+
+    return args[0], args[1] 
     
 
 
@@ -82,16 +82,15 @@ def play_game(team, enemy):
         
         if any(game.can_move(i, j, reversi.FIRST) for i in range(reversi.BOARD_SIZE) for j in range(reversi.BOARD_SIZE)): 
             try: 
-                x, y = child_thread_getmove(team, reversi.FIRST, game.get_board()); 
+                x, y = child_proc_getmove(team, reversi.FIRST, game.get_board()); 
                 game.play(x, y, reversi.FIRST)
                 logs.append([x, y]) 
             except: 
                 game.set_winner = reversi.SECOND
-                break                 
 
         if game.set_winner == reversi.UNKNOWN and any(game.can_move(i, j, reversi.SECOND) for i in range(reversi.BOARD_SIZE) for j in range(reversi.BOARD_SIZE)): 
             try: 
-                x, y = child_thread_getmove(enemy, reversi.SECOND, game.get_board()); 
+                x, y = child_proc_getmove(enemy, reversi.SECOND, game.get_board()); 
                 game.play(x, y, reversi.SECOND) 
                 logs.append([x, y])
             except: 
