@@ -131,6 +131,25 @@ function Othello () {
   // i = 4, j = 3
   this.state[4][3].setTileWhite();
 
+  switch(data["winner"]){
+    case 1:
+      $(".result").text("Black Wins!");
+      return;
+    case 2:
+      $(".result").text("White Wins!");
+      return;
+    case -1:
+      $(".result").text("Black Crashed :(");
+      return;
+    case -2:
+      $(".result").text("White Crashed :(");
+      return;
+    default:
+      return;
+  }
+    
+
+
 }
 
 Othello.prototype.isValidMove = function (i, j, state, turn) {
@@ -203,7 +222,7 @@ Othello.prototype.makeMove = function (i, j) {
     moves = this.movesAvailable();
     if (moves.length == 0) {
       console.log("no moves for opponent");
-      this.gameOver();
+      //this.gameOver();
       return;
     }
   }
