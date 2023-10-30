@@ -50,4 +50,4 @@ def run_sim():
 
 if __name__ == "__main__":
     server_utils.generate_players(players_count)
-    app.run(host='0.0.0.0', host=80)
+    app.run(host='0.0.0.0', port=80)
