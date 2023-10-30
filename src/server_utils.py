@@ -6,7 +6,7 @@ pass_len = 10
 chr_options = "0123456789abcdefghijklmnopqrstuvwxyz" 
 basedir = os.path.join("Submitted Code")
 allowed_pass = []
-TIMEOUT = 0.42
+TIMEOUT = 0.7
 
 
 #passcode -> path to python file
