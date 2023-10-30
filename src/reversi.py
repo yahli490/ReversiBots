@@ -108,5 +108,5 @@ class reversi:
                     yy += dy
 
 
-    def get_board(self) -> list[list[int]]:  
+    def get_board(self):  
         return copy.deepcopy(self.board)
