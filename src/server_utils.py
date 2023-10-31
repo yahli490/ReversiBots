@@ -41,12 +41,20 @@ def generate_players(count : int) -> None:
     if not os.path.exists(basedir): 
         os.makedirs(basedir)
 
+    f = None
+    if os.path.exists("passcodes.txt"):
+        f = open("passcodes.txt", "r")
+
     #Generate random passcodes and save them to passcodes.txt
     for _ in range(count): 
         new = "" 
         for i in range(pass_len): 
             new += chr_options[secrets.randbelow(len(chr_options))]
-        allowed_pass.append(new)
+
+        if f is None: 
+            allowed_pass.append(new)
+        else: 
+            allowed_pass.append(f.readline()[:-1]) 
 
     with open(os.path.join(basedir, "passcodes.txt"), "w") as f: 
         for pc in allowed_pass: 

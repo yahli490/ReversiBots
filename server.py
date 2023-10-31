@@ -3,7 +3,7 @@ import src.server_utils as server_utils
 import os 
 
 
-players_count = 5
+players_count = 50
 app = Flask(__name__, static_folder = os.path.join('static', 'style'), template_folder= os.path.join("static", "templates"))
 
 
